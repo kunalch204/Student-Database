@@ -1,0 +1,69 @@
+/*
+Name: Kunal Chopra
+Date: 6/5/2023
+Course: CS290
+*/
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #000;
+}
+
+main {
+  background-color: #fff;
+  color: #333;
+  margin: 20px;
+  border: 1px solid #333;
+}
+
+footer {
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  border-top: 1px solid #fff;
+}
+
+body {
+  background-image: url("data:image/jpeg;base64,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");
+  background-size: cover;
+  margin: 0;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+table {
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th,
+td {
+  border: 1px solid black;
+  padding: 10px;
+  text-align: left;
+}
+th {
+  background-color: #ddd;
+}
+
+nav {
+  display: flex;
+  justify-content: left;
+  margin-top: 20px;
+}
+
+nav a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ddd;
+  color: #333;
+  text-decoration: none;
+  border: 1px solid #333;
+  border-radius: 5px;
+  transition: background-color 0.5s, color 0.5s;
+  margin: 0 5px;
+}
+
+nav a:hover {
+  background-color: #333;
+  color: #fff;
+}

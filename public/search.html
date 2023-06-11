@@ -1,0 +1,118 @@
+<!-- 
+Name: Kunal Chopra
+Date: 6/5/2023
+Course: CS290
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Song Search</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Music Services</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="search.html">Search by genre</a>
+        <a href="update.html">Update a song</a>
+        <a href="delete.html">Delete a song</a>
+        <a href="add.html">Add a song</a>
+        <a href="list.html">List all songs</a>
+      </nav>
+    </header>
+    <form action="/search" method="GET" id="searchForm">
+      <label for="genre">Genre:</label>
+      <select id="genre" name="genre">
+        <option value="">-- Select Genre --</option>
+        <!-- Genre options will be dynamically added here -->
+      </select>
+      <button type="submit">Search</button>
+    </form>
+    <div id="searchResults"></div>
+    <footer>
+      <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+    </footer>
+
+    <script>
+      var searchForm = document.getElementById("searchForm");
+      var searchResults = document.getElementById("searchResults");
+    
+      searchForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+    
+        var genre = document.getElementById("genre").value;
+  
+        // Perform AJAX request to the server
+        fetch(`/search?genre=${genre}`)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            // Display the search results
+            renderSearchResults(data);
+          })
+          .catch(function(error) {
+            console.error("Error:", error);
+          });
+      });
+    
+      // Render the search results
+      function renderSearchResults(results) {
+        // Clear previous results
+        searchResults.innerHTML = "";
+    
+        if (results.length === 0) {
+          searchResults.innerHTML = "No results found.";
+          return;
+        }
+    
+        // Create a table to display the results
+        var table = document.createElement("table");
+        table.innerHTML = `
+           <tr>
+             <th>Title</th>
+             <th>Artist</th>
+             <th>Popularity</th>
+             <th>Release Date</th>
+             <th>Genre</th>
+           </tr>
+         `;
+    
+        // Iterate over the results and create table rows
+        results.forEach(function(song) {
+          var row = document.createElement("tr");
+          row.innerHTML = `
+             <td>${song.title}</td>
+             <td>${song.artist}</td>
+             <td>${song.popularity}</td>
+             <td>${song.releaseDate}</td>
+             <td>${song.genre.join(", ")}</td>
+           `;
+          table.appendChild(row);
+        });
+    
+        searchResults.appendChild(table);
+      }
+    
+      // Fetch all the possible genre options and add them to the popup options list
+      fetch("/genres")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(genres) {
+          var genreSelect = document.getElementById("genre");
+          // Add the genre options to the list
+          genres.forEach(function(genre) {
+            var option = document.createElement("option");
+            option.value = genre;
+            option.textContent = genre;
+            genreSelect.appendChild(option);
+          });
+        })
+        .catch(function(error) {
+          console.error("Error:", error);
+        });
+    </script>
+    </body>    
+</html>

@@ -1,0 +1,102 @@
+<!-- 
+Name: Kunal Chopra
+Date: 6/5/2023
+Course: CS290
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Song</title>
+  <link rel="stylesheet" href="/style.css">
+  
+</head>
+<body>
+    <header>
+        <h1>Music Services</h1>
+        <nav>
+           <a href="index.html">Home</a>
+           <a href="search.html">Search by genre</a>
+           <a href="update.html">Update a song</a>
+           <a href="delete.html">Delete a song</a>
+           <a href="add.html">Add a song</a>
+           <a href="list.html">List all songs</a>
+        </nav>
+     </header>
+
+  <!-- Display all songs -->
+  <h2>All Songs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Genre</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="songTable">
+      <!-- Songs will be added here -->
+    </tbody>
+  </table>
+
+  <footer>
+    <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+  </footer>
+
+  <script>
+    // Get all the songs from database and populate table
+    fetch('/allSongs')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(songs) {
+        const table = document.getElementById('songTable');
+        songs.forEach(function(song) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${song.title}</td>
+            <td>${song.artist}</td>
+            <td>${song.genre}</td>
+            <td>
+              <form class="deleteForm">
+                <input type="hidden" name="songId" value="${song._id}">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          `;
+          table.appendChild(row);
+        });
+  
+        // event listener to handle form submission
+        const deleteForms = document.querySelectorAll('.deleteForm');
+        deleteForms.forEach(function(form) {
+          form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const songId = form.querySelector('input[name="songId"]').value;
+            deleteSong(songId);
+          });
+        });
+      });
+  
+    function deleteSong(songId) {
+      fetch('/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ songId })
+      })
+      .then(function(response) {
+        if (response.ok) {
+          location.reload(); // refresh
+        } else {
+          console.error('Failed to delete song.');
+        }
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      });
+    }
+  </script>  
+</body>
+</html>

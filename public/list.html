@@ -1,0 +1,83 @@
+<!-- 
+Name: Kunal Chopra
+Date: 6/5/2023
+Course: CS290
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song List</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <h1>Music Services</h1>
+        <nav>
+           <a href="index.html">Home</a>
+           <a href="search.html">Search by genre</a>
+           <a href="update.html">Update a song</a>
+           <a href="delete.html">Delete a song</a>
+           <a href="add.html">Add a song</a>
+           <a href="list.html">List all songs</a>
+        </nav>
+     </header>
+
+  <!-- Table to display all songs -->
+  <h2>List of all songs</h2>
+  <table id="songTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Release Date</th>
+        <th>Popularity</th>
+        <th>Genre</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <footer>
+      <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+ </footer>
+
+ <script>
+  // get all the songs from the server and populate the table
+  window.addEventListener('DOMContentLoaded', function() {
+    var tableBody = document.querySelector('#songTable tbody');
+    // fetch all songs
+    fetch('/allSongs')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(songs) {
+        songs.forEach(function(song) {
+          var row = document.createElement('tr');
+          row.innerHTML = '<td>' + song._id + '</td>' +
+                          '<td>' + song.title + '</td>' +
+                          '<td>' + song.artist + '</td>' +
+                          '<td>' + song.releaseDate + '</td>' +
+                          '<td>' + song.popularity + '</td>' +
+                          '<td>' + song.genre + '</td>';
+          tableBody.appendChild(row);
+        });
+      })
+  });
+</script>
+
+
+</body>
+</html>
