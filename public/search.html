@@ -6,32 +6,29 @@ Course: CS290
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Song Search</title>
+    <title>Student Search</title>
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <header>
-      <h1>Music Services</h1>
+      <h1>Student Database</h1>
       <nav>
         <a href="index.html">Home</a>
-        <a href="search.html">Search by genre</a>
-        <a href="update.html">Update a song</a>
-        <a href="delete.html">Delete a song</a>
-        <a href="add.html">Add a song</a>
-        <a href="list.html">List all songs</a>
+        <a href="search.html">Search by name</a>
+        <a href="update.html">Update student</a>
+        <a href="delete.html">Delete student</a>
+        <a href="add.html">Add student</a>
+        <a href="list.html">List all students</a>
       </nav>
     </header>
     <form action="/search" method="GET" id="searchForm">
-      <label for="genre">Genre:</label>
-      <select id="genre" name="genre">
-        <option value="">-- Select Genre --</option>
-        <!-- Genre options will be dynamically added here -->
-      </select>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
       <button type="submit">Search</button>
     </form>
     <div id="searchResults"></div>
     <footer>
-      <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+      <p>&copy; 2023 361 group project </p>
     </footer>
 
     <script>
@@ -41,10 +38,10 @@ Course: CS290
       searchForm.addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent form submission
     
-        var genre = document.getElementById("genre").value;
+        var name = document.getElementById("name").value;
   
         // Perform AJAX request to the server
-        fetch(`/search?genre=${genre}`)
+        fetch(`/search?name=${name}`)
           .then(function(response) {
             return response.json();
           })
@@ -71,48 +68,27 @@ Course: CS290
         var table = document.createElement("table");
         table.innerHTML = `
            <tr>
-             <th>Title</th>
-             <th>Artist</th>
-             <th>Popularity</th>
-             <th>Release Date</th>
-             <th>Genre</th>
+             <th>Name</th>
+             <th>Age</th>
+             <th>Grade</th>
+             <th>Address</th>
            </tr>
          `;
     
         // Iterate over the results and create table rows
-        results.forEach(function(song) {
+        results.forEach(function(student) {
           var row = document.createElement("tr");
           row.innerHTML = `
-             <td>${song.title}</td>
-             <td>${song.artist}</td>
-             <td>${song.popularity}</td>
-             <td>${song.releaseDate}</td>
-             <td>${song.genre.join(", ")}</td>
+             <td>${student.name}</td>
+             <td>${student.age}</td>
+             <td>${student.grade}</td>
+             <td>${student.address}</td>
            `;
           table.appendChild(row);
         });
     
         searchResults.appendChild(table);
       }
-    
-      // Fetch all the possible genre options and add them to the popup options list
-      fetch("/genres")
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(genres) {
-          var genreSelect = document.getElementById("genre");
-          // Add the genre options to the list
-          genres.forEach(function(genre) {
-            var option = document.createElement("option");
-            option.value = genre;
-            option.textContent = genre;
-            genreSelect.appendChild(option);
-          });
-        })
-        .catch(function(error) {
-          console.error("Error:", error);
-        });
     </script>
-    </body>    
+  </body>    
 </html>

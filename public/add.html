@@ -6,47 +6,51 @@ Course: CS290
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add Song</title>
+  <title>Add Student</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <header>
-        <h1>Music Services</h1>
+        <h1>Student Database</h1>
         <nav>
-           <a href="index.html">Home</a>
-           <a href="search.html">Search by genre</a>
-           <a href="update.html">Update a song</a>
-           <a href="delete.html">Delete a song</a>
-           <a href="add.html">Add a song</a>
-           <a href="list.html">List all songs</a>
+          <a href="index.html">Home</a>
+        <a href="search.html">Search by name</a>
+        <a href="update.html">Update student</a>
+        <a href="delete.html">Delete student</a>
+        <a href="add.html">Add student</a>
+        <a href="list.html">List all students</a>
         </nav>
      </header>
 
-  <!-- Song Form - include each thing in song schema -->
+  <!-- Student Form - include each field in student schema -->
   <form action="/add" method="POST">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
     <br>
 
-    <label for="artist">Artist:</label>
-    <input type="text" id="artist" name="artist" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
     <br>
 
-    <label for="genre">Genre(s):</label>
-    <input type="text" id="genre" name="genre" required>
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required>
     <br>
 
-    <label for="released">Release Date:</label>
-    <input type="date" id="released" name="released" required>
+    <label for="gpa">GPA:</label>
+    <input type="number" step="0.01" id="gpa" name="gpa" required>
     <br>
 
-    <label for="popularity">Popularity:</label>
-    <input type="number" id="popularity" name="popularity" required>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required>
     <br>
-    <button type="submit">Add Song</button>
+
+    <label for="classes">Classes:</label>
+    <input type="text" id="classes" name="classes" required>
+    <br>
+    <button type="submit">Add Student</button>
   </form>
   <footer>
-    <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+    <p>&copy; 2023 361 group project </p>
   </footer>
 </body>
 </html>

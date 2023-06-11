@@ -15,12 +15,12 @@ app.use(bodyParser.json());
 // we are connecting to local port 3000
 const PORT = 3000;
 
-// connecting to Mongo 
+// connecting to MongoDB 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'music_db' 
+  dbName: 'student_db' 
 })
   .then(function() {
     console.log('Connected to MongoDB'); // success 
@@ -32,29 +32,30 @@ mongoose.connect(process.env.MONGODB_URL, {
     console.error('Failed to connect to MongoDB:', error); // fail
   });
 
-// access to the public folder with htmls and css
+// access to the public folder with HTMLs and CSS
 app.use(express.static('public')); 
 app.use(express.json());
 
 const Schema = mongoose.Schema;
 
-// make the song schema from texbook
-const songSchema = new Schema({
-  title: { type: String, required: true },
-  artist: String,
-  popularity: { type: Number, min: 1, max: 10 },
-  releaseDate: { type: Date, default: Date.now },
-  genre: [String]
+// make the student schema
+const studentSchema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  id: { type: String, required: true },
+  gpa: { type: Number, required: true },
+  address: { type: String, required: true },
+  classes: { type: String, required: true }
 });
 
-// create a song model 
-const Song = mongoose.model('Song', songSchema);
+// create a student model 
+const Student = mongoose.model('Student', studentSchema);
 
-// retrieve all the songs
-app.get('/allSongs', function(req, res) {
-  Song.find({})
-    .then(function(songs) {
-      res.json(songs); 
+// retrieve all the students
+app.get('/allStudents', function(req, res) {
+  Student.find({})
+    .then(function(students) {
+      res.json(students); 
     })
     .catch(function(error) { // catch error 
       console.error('Error:', error);
@@ -62,26 +63,13 @@ app.get('/allSongs', function(req, res) {
     });
 });
 
-
-// Retrieve all the available genres possible 
-app.get('/genres', function(req, res) {
-  Song.find().distinct('genre')
-    .then(function(genres) {
-      res.json(genres); 
-    })
-    .catch(function(error) { // catch error 
-      console.error('Error:', error);
-      res.sendStatus(500); 
-    });
-});
-
-// search for the genre 
+// search for students by name
 app.get('/search', function(req, res) {
-  const genre = req.query.genre; 
+  const name = req.query.name; 
 
-  Song.find({ genre: genre })
-    .then(function(songs) {
-      res.json(songs); 
+  Student.find({ name: name })
+    .then(function(students) {
+      res.json(students); 
     })
     .catch(function(error) { // catch error 
       console.error('Error:', error);
@@ -89,15 +77,15 @@ app.get('/search', function(req, res) {
     });
 });
 
-// update the song based on user input 
+// update a student based on user input 
 app.post('/update', function(req, res) {
-  // Retrieve the updated song details from the request body
-  const { _id, title, artist, genre, released, popularity } = req.body;
+  // Retrieve the updated student details from the request body
+  const { _id, name, email, id, gpa, address, classes } = req.body;
 
-  // Update the song in the database
-  Song.findByIdAndUpdate(_id, { title, artist, genre, releaseDate: released, popularity }, { new: true })
-    .then(function(updatedSong) {
-      res.redirect('/list.html'); // go to all songs page
+  // Update the student in the database
+  Student.findByIdAndUpdate(_id, { name, email, id, gpa, address, classes }, { new: true })
+    .then(function(updatedStudent) {
+      res.redirect('/list.html'); // go to all students page
     })
     .catch(function(error) { // catch error 
       console.error('Error:', error);
@@ -105,11 +93,11 @@ app.post('/update', function(req, res) {
     });
 });
 
-// delete a song from database
+// delete a student from the database
 app.post('/delete', function(req, res) {
-  const songId = req.body.songId; // Retrieve the song ID from the request body
+  const studentId = req.body.studentId; // Retrieve the student ID from the request body
 
-  Song.findByIdAndDelete(songId)
+  Student.findByIdAndDelete(studentId)
     .then(function() {
       res.sendStatus(200); // successful
     })
@@ -119,22 +107,23 @@ app.post('/delete', function(req, res) {
     });
 });
 
-// add a new song to database
+// add a new student to the database
 app.post('/add', function(req, res) {
-  const { title, artist, genre, released, popularity } = req.body;
-  // new song instance
-  const newSong = new Song({
-    title,
-    artist,
-    genre,
-    releaseDate: new Date(released),
-    popularity
+  const { name, email, id, gpa, address, classes } = req.body;
+  // create a new student instance
+  const newStudent = new Student({
+    name,
+    email,
+    id,
+    gpa,
+    address,
+    classes
   });
 
-  // Save the new song to the database
-  newSong.save()
-    .then(function(savedSong) {
-      res.redirect('/list.html'); // go to song list page 
+  // Save the new student to the database
+  newStudent.save()
+    .then(function(savedStudent) {
+      res.redirect('/list.html'); // go to student list page 
     })
     .catch(function(error) { // catch error 
       console.error('Error:', error);
@@ -142,12 +131,12 @@ app.post('/add', function(req, res) {
     });
 });
 
-// List all the songs and the stats
+// List all the students
 app.get('/list', function(req, res) {
-  Song.find({})
-    .then(function(songs) {
-      // render song datas
-      res.render('list', { songs: songs });
+  Student.find({})
+    .then(function(students) {
+      // render student data
+      res.render('list', { students: students });
     })
     .catch(function(error) { // catch error 
       console.error('Error:', error);

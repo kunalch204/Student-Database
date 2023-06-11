@@ -6,7 +6,7 @@ Course: CS290
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Song List</title>
+  <title>Student List</title>
   <link rel="stylesheet" href="/style.css">
   <style>
     table {
@@ -23,61 +23,56 @@ Course: CS290
 </head>
 <body>
     <header>
-        <h1>Music Services</h1>
+        <h1>Student Database</h1>
         <nav>
-           <a href="index.html">Home</a>
-           <a href="search.html">Search by genre</a>
-           <a href="update.html">Update a song</a>
-           <a href="delete.html">Delete a song</a>
-           <a href="add.html">Add a song</a>
-           <a href="list.html">List all songs</a>
+          <a href="index.html">Home</a>
+          <a href="search.html">Search by name</a>
+          <a href="update.html">Update student</a>
+          <a href="delete.html">Delete student</a>
+          <a href="add.html">Add student</a>
+          <a href="list.html">List all students</a>
         </nav>
      </header>
 
-  <!-- Table to display all songs -->
-  <h2>List of all songs</h2>
-  <table id="songTable">
+  <!-- Table to display all students -->
+  <h2>List of all students</h2>
+  <table id="studentTable">
     <thead>
       <tr>
         <th>ID</th>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>Release Date</th>
-        <th>Popularity</th>
-        <th>Genre</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>GPA</th>
       </tr>
     </thead>
     <tbody>
     </tbody>
   </table>
+
   <footer>
-      <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
- </footer>
+    <p>&copy; 2023 361 group project </p>
+  </footer>
 
- <script>
-  // get all the songs from the server and populate the table
-  window.addEventListener('DOMContentLoaded', function() {
-    var tableBody = document.querySelector('#songTable tbody');
-    // fetch all songs
-    fetch('/allSongs')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(songs) {
-        songs.forEach(function(song) {
-          var row = document.createElement('tr');
-          row.innerHTML = '<td>' + song._id + '</td>' +
-                          '<td>' + song.title + '</td>' +
-                          '<td>' + song.artist + '</td>' +
-                          '<td>' + song.releaseDate + '</td>' +
-                          '<td>' + song.popularity + '</td>' +
-                          '<td>' + song.genre + '</td>';
-          tableBody.appendChild(row);
+  <script>
+    // Get all the students from the server and populate the table
+    window.addEventListener('DOMContentLoaded', function() {
+      var tableBody = document.querySelector('#studentTable tbody');
+      // Fetch all students
+      fetch('/allStudents')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(students) {
+          students.forEach(function(student) {
+            var row = document.createElement('tr');
+            row.innerHTML = '<td>' + student.id + '</td>' +
+                            '<td>' + student.name + '</td>' +
+                            '<td>' + student.email + '</td>' +
+                            '<td>' + student.gpa + '</td>';
+            tableBody.appendChild(row);
+          });
         });
-      })
-  });
-</script>
-
-
+    });
+  </script>
 </body>
 </html>

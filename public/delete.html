@@ -6,91 +6,92 @@ Course: CS290
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Delete Song</title>
+  <title>Delete Student</title>
   <link rel="stylesheet" href="/style.css">
-  
 </head>
 <body>
     <header>
-        <h1>Music Services</h1>
+        <h1>Student Database</h1>
         <nav>
-           <a href="index.html">Home</a>
-           <a href="search.html">Search by genre</a>
-           <a href="update.html">Update a song</a>
-           <a href="delete.html">Delete a song</a>
-           <a href="add.html">Add a song</a>
-           <a href="list.html">List all songs</a>
+          <a href="index.html">Home</a>
+        <a href="search.html">Search by name</a>
+        <a href="update.html">Update student</a>
+        <a href="delete.html">Delete student</a>
+        <a href="add.html">Add student</a>
+        <a href="list.html">List all students</a>
         </nav>
      </header>
 
-  <!-- Display all songs -->
-  <h2>All Songs</h2>
+  <!-- Display all students -->
+  <h2>All Students</h2>
   <table>
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>Genre</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>ID</th>
+        <th>GPA</th>
         <th>Action</th>
       </tr>
     </thead>
-    <tbody id="songTable">
-      <!-- Songs will be added here -->
+    <tbody id="studentTable">
+      <!-- Students will be added here -->
     </tbody>
   </table>
 
   <footer>
-    <p>&copy; 2023 Magical Music Company-- Created by Kunal Chopra</p>
+    <p>&copy; 2023 361 group project </p>
   </footer>
 
   <script>
-    // Get all the songs from database and populate table
-    fetch('/allSongs')
+    // Get all the students from the database and populate the table
+    fetch('/allStudents')
       .then(function(response) {
         return response.json();
       })
-      .then(function(songs) {
-        const table = document.getElementById('songTable');
-        songs.forEach(function(song) {
+      .then(function(students) {
+        const table = document.getElementById('studentTable');
+        students.forEach(function(student) {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${song.title}</td>
-            <td>${song.artist}</td>
-            <td>${song.genre}</td>
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td>${student.id}</td>
+            <td>${student.gpa}</td>
             <td>
               <form class="deleteForm">
-                <input type="hidden" name="songId" value="${song._id}">
+                <input type="hidden" name="studentId" value="${student.id}">
                 <button type="submit">Delete</button>
               </form>
             </td>
           `;
           table.appendChild(row);
         });
-  
-        // event listener to handle form submission
+
+        // Event listener to handle form submission
         const deleteForms = document.querySelectorAll('.deleteForm');
         deleteForms.forEach(function(form) {
           form.addEventListener('submit', function(event) {
             event.preventDefault();
-            const songId = form.querySelector('input[name="songId"]').value;
-            deleteSong(songId);
+            const studentId = form.querySelector('input[name="studentId"]').value;
+            deleteStudent(studentId);
           });
         });
       });
-  
-    function deleteSong(songId) {
+
+    function deleteStudent(studentId) {
       fetch('/delete', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ songId })
+        body: JSON.stringify({ studentId })
       })
       .then(function(response) {
         if (response.ok) {
-          location.reload(); // refresh
+          location.reload(); // Refresh the page after successful deletion
         } else {
-          console.error('Failed to delete song.');
+          console.error('Failed to delete student.');
         }
       })
       .catch(function(error) {

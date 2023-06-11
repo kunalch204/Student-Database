@@ -6,89 +6,83 @@ Course: CS290
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Update Song</title>
+  <title>Update Student</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <header>
-        <h1>Music Services</h1>
+        <h1>Student Management System</h1>
         <nav>
-           <a href="index.html">Home</a>
-           <a href="search.html">Search by genre</a>
-           <a href="update.html">Update a song</a>
-           <a href="delete.html">Delete a song</a>
-           <a href="add.html">Add a song</a>
-           <a href="list.html">List all songs</a>
+          <a href="index.html">Home</a>
+        <a href="search.html">Search by name</a>
+        <a href="update.html">Update student</a>
+        <a href="delete.html">Delete student</a>
+        <a href="add.html">Add student</a>
+        <a href="list.html">List all students</a>
         </nav>
      </header>
 
-  <h2>All Songs</h2>
-  <table id="songTable">
+  <h2>All Students</h2>
+  <table id="studentTable">
     <tr>
       <th>ID</th>
-      <th>Title</th>
-      <th>Artist</th>
-      <th>Genre</th>
-      <th>Released</th>
-      <th>Popularity</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Major</th>
+      <th>GPA</th>
       <th>Select</th>
     </tr>
   </table>
 
-  <h2>Update Song Details</h2>
+  <h2>Update Student Details</h2>
   <form id="updateForm" action="/update" method="POST">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
 
-    <label for="artist">Artist:</label>
-    <input type="text" id="artist" name="artist">
+    <label for="age">Age:</label>
+    <input type="text" id="age" name="age">
 
-    <label for="genre">Genre:</label>
-    <input type="text" id="genre" name="genre">
+    <label for="major">Major:</label>
+    <input type="text" id="major" name="major">
 
-    <label for="released">Released:</label>
-    <input type="text" id="released" name="released">
-
-    <label for="popularity">Popularity:</label>
-    <input type="text" id="popularity" name="popularity">
+    <label for="gpa">GPA:</label>
+    <input type="text" id="gpa" name="gpa">
 
     <button type="submit">Update</button>
   </form>
   
   <footer>
-    <p>&copy; 2023 Kunal Chopra Music Company</p>
- </footer> 
+    <p>&copy; 2023 361 group project </p>
+  </footer> 
 
- <script>
-  // Fetch all songs from the server and populate the table
-  fetch('/allSongs')
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(songs) {
-      var table = document.getElementById('songTable');
-      songs.forEach(function(song) {
-        var row = table.insertRow();
-        row.insertCell().textContent = song._id;
-        row.insertCell().textContent = song.title;
-        row.insertCell().textContent = song.artist;
-        row.insertCell().textContent = song.genre;
-        row.insertCell().textContent = song.releaseDate;
-        row.insertCell().textContent = song.popularity;
-        var selectCell = row.insertCell();
-        var selectButton = document.createElement('button');
-        selectButton.textContent = 'Select';
-        selectButton.addEventListener('click', function() {
-          // Set the form values based on the selected song
-          document.getElementById('title').value = song.title;
-          document.getElementById('artist').value = song.artist;
-          document.getElementById('genre').value = song.genre;
-          document.getElementById('released').value = song.releaseDate;
-          document.getElementById('popularity').value = song.popularity;
+  <script>
+    // Fetch all students from the server and populate the table
+    fetch('/allStudents')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(students) {
+        var table = document.getElementById('studentTable');
+        students.forEach(function(student) {
+          var row = table.insertRow();
+          row.insertCell().textContent = student.id;
+          row.insertCell().textContent = student.name;
+          row.insertCell().textContent = student.age;
+          row.insertCell().textContent = student.major;
+          row.insertCell().textContent = student.gpa;
+          var selectCell = row.insertCell();
+          var selectButton = document.createElement('button');
+          selectButton.textContent = 'Select';
+          selectButton.addEventListener('click', function() {
+            // Set the form values based on the selected student
+            document.getElementById('name').value = student.name;
+            document.getElementById('age').value = student.age;
+            document.getElementById('major').value = student.major;
+            document.getElementById('gpa').value = student.gpa;
+          });
+          selectCell.appendChild(selectButton);
         });
-        selectCell.appendChild(selectButton);
       });
-    });
-</script>
+  </script>
 </body>
 </html>
