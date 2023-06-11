@@ -1,0 +1,26 @@
+[
+  {
+    "name": "John Smith",
+    "email": "john@example.com",
+    "id": "12345",
+    "gpa": 3.75,
+    "address": "123 Main Street",
+    "classes": "Math, Science, English"
+  },
+  {
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "id": "54321",
+    "gpa": 3.95,
+    "address": "456 Elm Street",
+    "classes": "History, Art, Spanish"
+  },
+  {
+    "name": "Bob Johnson",
+    "email": "bob@example.com",
+    "id": "98765",
+    "gpa": 3.25,
+    "address": "789 Oak Street",
+    "classes": "Physics, Literature, French"
+  }
+]
